@@ -39,6 +39,13 @@ final class MoviesListViewController: UIViewController, StoryboardInstantiable, 
         viewModel.viewDidLoad()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        searchController.isActive = false
+    }
+    
+    // MARK: - Setups
+    
     private func bind(to viewModel: MoviesListViewModel) {
         viewModel.items.observe(on: self) { [weak self] _ in self?.moviesTableViewController?.reload() }
         viewModel.query.observe(on: self) { [weak self] in self?.updateSearchController(query: $0) }
@@ -46,16 +53,14 @@ final class MoviesListViewController: UIViewController, StoryboardInstantiable, 
         viewModel.loadingType.observe(on: self) { [weak self] in self?.updateViewsVisibility(loadingType: $0) }
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        searchController.isActive = false
-    }
 
     private func updateSearchController(query: String) {
         searchController.isActive = false
         searchController.searchBar.text = query
     }
 
+    // MARK: - Navigation
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == String(describing: MoviesListTableViewController.self),
             let destinationVC = segue.destination as? MoviesListTableViewController {
