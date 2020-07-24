@@ -47,7 +47,7 @@ protocol MoviesListViewModel: MoviesListViewModelInput, MoviesListViewModelOutpu
 final class DefaultMoviesListViewModel: MoviesListViewModel {
 
     private let searchMoviesUseCase: SearchMoviesUseCase
-    private let closures: MoviesListViewModelClosures?
+    private let closures: MoviesListViewModelClosures?  // this is for navigation, perhaps I can pass in coordinator instead
 
     var currentPage: Int = 0
     var totalPageCount: Int = 1
